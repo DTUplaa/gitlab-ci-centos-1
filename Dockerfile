@@ -19,6 +19,14 @@ RUN yum -y update; yum clean all \
     curl \
     gcc gcc-c++ make openssl-devel
 
+# gcc7
+RUN yum -y install centos-release-scl
+RUN yum -y install devtoolset-7
+RUN /usr/bin/scl enable devtoolset-7 bash
+
+# add devtoolset to PATH and LD_LIBRARY_PATH
+ENV PATH=/opt/rh/devtoolset-7/root/usr/bin${PATH:+:${PATH}}
+ENV LD_LIBRARY_PATH /opt/rh/devtoolset-7/root/usr/lib64
 
 # openmpi
 RUN wget https://download.open-mpi.org/release/open-mpi/v4.0/openmpi-4.0.4.tar.gz \

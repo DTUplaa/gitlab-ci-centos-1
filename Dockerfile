@@ -1,6 +1,6 @@
 # Docker file for gitlab CI test image
 
-FROM centos:7.2.1511
+FROM centos:7.8.2003
 
 MAINTAINER Paul van der Laan <plaa@dtu.dk>
 
@@ -18,10 +18,13 @@ RUN yum -y update; yum clean all \
     git-all \
     curl \
     gcc gcc-c++ make openssl-devel
-RUN wget https://www.open-mpi.org/software/ompi/v1.10/downloads/openmpi-1.10.2.tar.gz \
-  && tar -xzf openmpi-1.10.2.tar.gz \
-  && cd openmpi-1.10.2 \
-  && ./configure --prefix=/usr/local --disable-dlopen \
+
+
+# openmpi
+RUN wget https://download.open-mpi.org/release/open-mpi/v4.0/openmpi-4.0.4.tar.gz \
+  && tar -xzf openmpi-4.0.4.tar.gz \
+  && cd openmpi-4.0.4 \
+  && ./configure --prefix=/usr/local \
   && make all install
 
 # Install miniconda to /miniconda
@@ -31,6 +34,6 @@ RUN wget --quiet \
     rm Miniconda-latest-Linux-x86_64.sh && \
     chmod -R a+rx $CONDA_ENV_PATH
 RUN conda update --quiet --yes conda \
-  && conda create -y -n py37 python=3.7 \
-  && /bin/bash -c "source activate py37 \
+  && conda create -y -n py36 python=3.6 \
+  && /bin/bash -c "source activate py36 \
   && conda install pip numpy scipy xarray nose"

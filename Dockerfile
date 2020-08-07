@@ -44,4 +44,4 @@ RUN wget --quiet \
 RUN conda update --quiet --yes conda \
   && conda create -y -n py36 python=3.6 \
   && /bin/bash -c "source activate py36 \
-  && conda install pip numpy scipy xarray nose"
+  && conda install pip numpy scipy xarray nose mpi4py"
